@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indwe Local Business Marketing Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        indweRed: '#d32f2f',
+                        indweRedDark: '#9a0007',
+                        indweBlue: '#5a92a5',
+                        indweBlueDark: '#356475',
+                        indweBg: '#f8fafc'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <header class="sticky top-0 z-40 glass-header border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo & Title -->
+                <div class="flex items-center space-x-4">
+                    <img src="img/indwe_golf_club_and_market_day_bird.png" alt="Indwe Crane" class="h-16 w-auto object-contain drop-shadow-sm" onerror="this.src='https://placehold.co/80x80/5a92a5/ffffff?text=Indwe+Bird'">
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
+                                Indwe <span class="text-indweRed">Business Hub</span>
+                            </h1>
+                            <span class="bg-red-100 text-indweRed text-xs px-2.5 py-0.5 rounded-full font-semibold border border-red-200">Local Directory</span>
+                        </div>
+                        <p class="text-xs text-slate-500 font-medium hidden sm:block">
+                            Connecting & Elevating Indwe Businesses • An Initiative by <span class="text-slate-700 font-semibold">Solam Mgqobozi</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- User Auth Simulation Header Control -->
+                <div class="flex items-center space-x-3">
+                    <div id="loggedOutNav" class="flex items-center space-x-2">
+                        <button onclick="openAuthModal()" class="px-4 py-2 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition shadow-sm flex items-center gap-2">
+                            <i class="fa-solid fa-right-to-bracket text-indweBlue"></i> Log In
+                        </button>
+                        <button onclick="openAuthModal('signup')" class="hidden sm:inline-flex px-4 py-2 text-sm font-semibold text-white bg-indweRed rounded-lg hover:bg-indweRedDark transition shadow-sm">
+                            Register Business
+                        </button>
+                    </div>
+
+                    <div id="loggedInNav" class="hidden items-center space-x-3">
+                        <div class="flex items-center space-x-2 bg-slate-100 py-1.5 px-3 rounded-full border border-slate-200">
+                            <div class="w-8 h-8 rounded-full bg-indweRed text-white flex items-center justify-center font-bold text-xs" id="userAvatar">
+                                SM
+                            </div>
+                            <div class="text-left hidden md:block">
+                                <div class="text-xs font-bold text-slate-800" id="userDisplayName">Solam Mgqobozi</div>
+                                <div class="text-[10px] text-slate-500">Business Owner</div>
+                            </div>
+                        </div>
+
+                        <button onclick="openAddModal()" class="px-3.5 py-2 text-sm font-semibold text-white bg-indweRed rounded-lg hover:bg-indweRedDark transition shadow-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-plus"></i> <span class="hidden sm:inline">Add Business</span>
+                        </button>
+
+                        <button onclick="logout()" title="Logout" class="p-2 text-slate-500 hover:text-red-600 rounded-lg hover:bg-slate-100 transition">
+                            <i class="fa-solid fa-arrow-right-from-bracket text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sub-header Tagline for Mobile -->
+    <div class="sm:hidden bg-slate-100 border-b border-slate-200 px-4 py-2 text-center text-xs text-slate-600">
+        Connecting & Elevating Indwe Businesses • Initiative by <strong>Solam Mgqobozi</strong>
+    </div>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <div class="relative rounded-2xl overflow-hidden bg-gradient-to-r from-slate-900 via-slate-800 to-indweBlueDark text-white p-6 sm:p-10 mb-8 shadow-md">
+            <div class="relative z-10 max-w-2xl">
+                <span class="inline-block px-3 py-1 bg-red-600/30 text-red-300 border border-red-500/30 rounded-full text-xs font-semibold mb-3">
+                    Community Economic Growth Platform
+                </span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight mb-3">
+                    Discover Local Products & Services in Indwe
+                </h2>
+                <p class="text-slate-300 text-sm sm:text-base mb-6">
+                    Support local entrepreneurs, self-catering stays, trade enterprises, and local initiatives driving our community forward.
+                </p>
+
+                <!-- Dynamic Search Bar -->
+                <div class="relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="searchInput" oninput="filterBusinesses()" placeholder="Search businesses by name, service, or keyword..." 
+                        class="w-full pl-11 pr-4 py-3.5 bg-white text-slate-800 rounded-xl shadow-lg border-0 focus:ring-2 focus:ring-indweRed outline-none text-sm font-medium">
+                </div>
+            </div>
+            
+            <div class="absolute right-4 bottom-0 opacity-15 pointer-events-none hidden lg:block">
+                <img src="indwe golf club and market day bird.jpg" alt="Watermark" class="h-80 w-auto">
+            </div>
+        </div>
+
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider">Filter by Category</h3>
+                <span id="businessCount" class="text-xs font-medium text-slate-500 bg-slate-200 px-2 py-1 rounded-full">Showing 6 businesses</span>
+            </div>
+            <div class="flex space-x-2 overflow-x-auto pb-2 scrollbar-none" id="categoryTabs">
+                <!-- Categories rendered dynamically via JS -->
+            </div>
+        </div>
+
+        <div id="businessGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Business Cards Rendered Here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-16 bg-white rounded-2xl border border-dashed border-slate-300 my-6">
+            <i class="fa-solid fa-store-slash text-4xl text-slate-300 mb-3"></i>
+            <h3 class="text-lg font-semibold text-slate-700">No businesses found</h3>
+            <p class="text-sm text-slate-500 max-w-md mx-auto mt-1">We couldn't find any business matching your search criteria. Try selecting another category or clear your search.</p>
+            <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm rounded-lg transition">Clear All Filters</button>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <img src="img/indwe_golf_club_and_market_day_bird.png" alt="Indwe Crane" class="h-10 w-auto">
+                <div>
+                    <p class="text-sm font-bold text-slate-800">Indwe Local Business Directory</p>
+                    <p class="text-xs text-slate-500">Initiated by Solam Mgqobozi & Enterprise Development</p>
+                </div>
+            </div>
+            <div class="text-xs text-slate-500 text-center md:text-right">
+                &copy; 2026 Indwe Local Businesses Platform. All rights reserved.<br>
+                <span class="text-slate-400">Designed for front-end editing and community economic empowerment.</span>
+            </div>
+        </div>
+    </footer>
+
+    <div id="authModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-2xl p-6 sm:p-8 max-w-md w-full mx-4 shadow-2xl relative border border-slate-100">
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            
+            <div class="text-center mb-6">
+                <img src="indwe golf club and market day bird.jpg" alt="Indwe Logo" class="h-14 mx-auto mb-2">
+                <h3 class="text-xl font-bold text-slate-900" id="authTitle">Business Portal Login</h3>
+                <p class="text-xs text-slate-500 mt-1">Access front-end editing to update or publish your local business listing</p>
+            </div>
+
+            <!-- Google OAuth Simulation Button -->
+            <button onclick="simulateGoogleLogin()" class="w-full py-3 px-4 bg-white border border-slate-300 hover:bg-slate-50 rounded-xl font-semibold text-slate-700 text-sm flex items-center justify-center gap-3 shadow-sm transition mb-4">
+                <svg class="w-5 h-5" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                </svg>
+                Continue with Google
+            </button>
+
+            <div class="relative flex py-2 items-center mb-4">
+                <div class="flex-grow border-t border-slate-200"></div>
+                <span class="flex-shrink mx-3 text-xs text-slate-400 uppercase font-medium">Or email sign in</span>
+                <div class="flex-grow border-t border-slate-200"></div>
+            </div>
+
+            <form onsubmit="handleEmailLogin(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Email Address</label>
+                    <input type="email" required id="authEmail" value="solam@solcompanies.co.za" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indweRed outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Password</label>
+                    <input type="password" required value="••••••••" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indweRed outline-none">
+                </div>
+                <button type="submit" class="w-full py-3 bg-indweRed hover:bg-indweRedDark text-white font-semibold rounded-xl text-sm transition shadow-sm mt-2">
+                    Sign In as Business Owner
+                </button>
+            </form>
+            <p class="text-[11px] text-slate-400 text-center mt-4">
+                Demo Auth Mode: Logging in gives front-end editing permissions.
+            </p>
+        </div>
+    </div>
+
+    <div id="businessModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden overflow-y-auto p-4 sm:p-6">
+        <div class="bg-white rounded-2xl max-w-2xl w-full my-auto shadow-2xl relative border border-slate-100 overflow-hidden">
+            <!-- Modal Header -->
+            <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-pen-to-square text-indweRed"></i>
+                    <h3 class="text-lg font-bold" id="formModalTitle">Edit Business Listing</h3>
+                </div>
+                <button onclick="closeBusinessModal()" class="text-slate-400 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Form Body -->
+            <form id="businessForm" onsubmit="saveBusiness(event)" class="p-6 space-y-4">
+                <input type="hidden" id="bizId">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Business Name *</label>
+                        <input type="text" id="bizName" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indweRed outline-none" placeholder="e.g. Sol Place Self-Catering">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Category *</label>
+                        <select id="bizCategory" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indweRed outline-none">
+                            <!-- Filled dynamically -->
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Phone Number *</label>
+                        <input type="text" id="bizPhone" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indweRed outline-none" placeholder="+27 82 123 4567">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Email Address *</label>
+                        <input type="email" id="bizEmail" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indweRed outline-none" placeholder="contact@business.co.za">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Physical Address / Location *</label>
+                        <input type="text" id="bizAddress" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indweRed outline-none" placeholder="Indwe Main Street, Eastern Cape">
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Business Description *</label>
+                        <textarea id="bizDescription" rows="3" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indweRed outline-none" placeholder="Describe products, services, operating hours..."></textarea>
+                    </div>
+
+                    <!-- Logo Upload with Live Preview -->
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Business Logo Image</label>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-20 h-20 rounded-xl border-2 border-dashed border-slate-300 flex items-center justify-center bg-slate-50 overflow-hidden relative" id="logoPreviewContainer">
+                                <img id="logoPreview" src="" class="w-full h-full object-contain p-1 hidden">
+                                <i id="logoPlaceholderIcon" class="fa-solid fa-image text-2xl text-slate-300"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <input type="file" id="logoFileInput" accept="image/*" onchange="previewUploadedImage(this)" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indweBlue/10 file:text-indweBlueDark hover:file:bg-indweBlue/20 cursor-pointer">
+                                <p class="text-[11px] text-slate-400 mt-1">Upload JPEG/PNG image file. Front-end live preview enabled.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-slate-200 flex justify-end space-x-3">
+                    <button type="button" onclick="closeBusinessModal()" class="px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition">Cancel</button>
+                    <button type="submit" class="px-5 py-2 text-sm font-semibold text-white bg-indweRed hover:bg-indweRedDark rounded-lg transition shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Save & Publish
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-xl flex items-center space-x-3 pointer-events-none">
+        <div id="toastIcon" class="text-emerald-400"><i class="fa-solid fa-circle-check text-lg"></i></div>
+        <div id="toastMessage" class="text-sm font-medium">Action completed successfully</div>
+    </div>
+
+    <script>
+        // Default Categories
+        const categories = [
+            "All",
+            "Accommodation & Hospitality",
+            "Food & Entertainment",
+            "Trading & Services",
+            "Beverages & Bottling",
+            "Foundation & Non-Profit",
+            "Holding Companies"
+        ];
+
+        // Initial Pre-populated Business Listings with user uploaded image files
+        let businesses = [
+            {
+                id: 1,
+                name: "Sol Place Self Catering and Accommodation",
+                category: "Accommodation & Hospitality",
+                logo: "img/sol_place_logo.jpg",
+                description: "Comfortable, premium self-catering accommodation in Indwe offering peaceful stays for travelers, tourists, and business visitors.",
+                phone: "+27 82 000 0001",
+                email: "stay@solplace.co.za",
+                address: "Indwe Central, Eastern Cape",
+                owner: "Solam Mgqobozi"
+            },
+            {
+                id: 2,
+                name: "The Shed by Sol Place",
+                category: "Food & Entertainment",
+                logo: "img/the_shed_by_sol_place_logo_red_and_yellow.png",
+                description: "Vibrant local dining, events, and relaxation venue. The ultimate local hangout spot for rich local flavors and warm hospitality.",
+                phone: "+27 82 000 0002",
+                email: "theshed@solplace.co.za",
+                address: "Sol Place Grounds, Indwe",
+                owner: "Solam Mgqobozi"
+            },
+            {
+                id: 3,
+                name: "Odwa & Solie Trading Enterprise",
+                category: "Trading & Services",
+                logo: "img/oands_logo1.jpg",
+                description: "Diversified trading enterprise specializing in local supply chain solutions, logistics, and multi-sector commercial services.",
+                phone: "+27 82 000 0003",
+                email: "info@odwasolie.co.za",
+                address: "Commercial Zone, Indwe",
+                owner: "Solam Mgqobozi"
+            },
+            {
+                id: 4,
+                name: "SolAcqua",
+                category: "Beverages & Bottling",
+                logo: "img/sol_aqua_logo2.jpg",
+                description: "Pure, refreshed local bottled spring water sourced and processed with precision to keep the Indwe community hydrated.",
+                phone: "+27 82 000 0004",
+                email: "orders@solacqua.co.za",
+                address: "Water Bottling Facility, Indwe",
+                owner: "Solam Mgqobozi"
+            },
+            {
+                id: 5,
+                name: "Sol Ubuntu Foundation",
+                category: "Foundation & Non-Profit",
+                logo: "img/sol_ubuntu_foundation_logo.jpg",
+                description: "Dedicated to community upliftment, youth empowerment, sports initiatives, and local social development in Indwe.",
+                phone: "+27 82 000 0005",
+                email: "foundation@solubuntu.org",
+                address: "Community Hub, Indwe",
+                owner: "Solam Mgqobozi"
+            },
+            {
+                id: 6,
+                name: "Sol Companies Holdings",
+                category: "Holding Companies",
+                logo: "img/solcompanies_holdings_logo.jpg",
+                description: "Parent investment and holding enterprise directing corporate strategy, community development, and local economic growth.",
+                phone: "+27 82 000 0006",
+                email: "holdings@solcompanies.co.za",
+                address: "Executive Suite, Indwe",
+                owner: "Solam Mgqobozi"
+            }
+        ];
+
+        // Global State
+        let activeCategory = "All";
+        let isLoggedIn = false;
+        let currentEditingId = null;
+        let uploadedImageDataUrl = null;
+
+        // Initialize Application
+        window.onload = function() {
+            renderCategories();
+            populateCategoryDropdown();
+            renderBusinesses();
+        };
+
+        function renderCategories() {
+            const container = document.getElementById("categoryTabs");
+            container.innerHTML = categories.map(cat => `
+                <button onclick="setCategory('${cat}')" 
+                    class="px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 border ${
+                        activeCategory === cat 
+                        ? 'bg-indweRed text-white border-indweRed shadow-sm' 
+                        : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100 hover:text-slate-900'
+                    }">
+                    ${cat}
+                </button>
+            `).join('');
+        }
+
+        function populateCategoryDropdown() {
+            const select = document.getElementById("bizCategory");
+            const filterCats = categories.filter(c => c !== "All");
+            select.innerHTML = filterCats.map(c => `<option value="${c}">${c}</option>`).join('');
+        }
+
+        function setCategory(cat) {
+            activeCategory = cat;
+            renderCategories();
+            filterBusinesses();
+        }
+
+        function resetFilters() {
+            document.getElementById("searchInput").value = "";
+            activeCategory = "All";
+            renderCategories();
+            renderBusinesses();
+        }
+
+        function renderBusinesses() {
+            const grid = document.getElementById("businessGrid");
+            const emptyState = document.getElementById("emptyState");
+            const searchTerm = document.getElementById("searchInput").value.toLowerCase().trim();
+
+            const filtered = businesses.filter(b => {
+                const matchesCat = (activeCategory === "All" || b.category === activeCategory);
+                const matchesSearch = b.name.toLowerCase().includes(searchTerm) || 
+                                      b.description.toLowerCase().includes(searchTerm) ||
+                                      b.category.toLowerCase().includes(searchTerm);
+                return matchesCat && matchesSearch;
+            });
+
+            document.getElementById("businessCount").innerText = `Showing ${filtered.length} business${filtered.length === 1 ? '' : 'es'}`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = "";
+                emptyState.classList.remove("hidden");
+                return;
+            }
+
+            emptyState.classList.add("hidden");
+
+            grid.innerHTML = filtered.map(b => `
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 flex flex-col group">
+                    
+                    <!-- Card Top Header with Category Badge & Action -->
+                    <div class="p-4 pb-0 flex items-center justify-between">
+                        <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 border border-slate-200">
+                            ${b.category}
+                        </span>
+                        
+                        ${isLoggedIn ? `
+                            <button onclick="openEditModal(${b.id})" class="text-slate-400 hover:text-indweRed text-xs font-semibold px-2 py-1 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 transition flex items-center gap-1">
+                                <i class="fa-solid fa-pen"></i> Edit
+                            </button>
+                        ` : ''}
+                    </div>
+
+                    <!-- Business Logo Container -->
+                    <div class="h-44 p-4 flex items-center justify-center bg-white border-b border-slate-100 my-2">
+                        <img src="${b.logo}" alt="${b.name}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/300x160/f1f5f9/64748b?text=${encodeURIComponent(b.name)}'">
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="p-5 flex-grow flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-lg group-hover:text-indweRed transition-colors leading-snug mb-2">
+                                ${b.name}
+                            </h3>
+                            <p class="text-slate-600 text-xs leading-relaxed line-clamp-3 mb-4">
+                                ${b.description}
+                            </p>
+                        </div>
+
+                        <!-- Contact Details Bar -->
+                        <div class="pt-3 border-t border-slate-100 space-y-1.5 text-xs text-slate-500">
+                            <div class="flex items-center space-x-2">
+                                <i class="fa-solid fa-phone text-indweBlue w-4"></i>
+                                <span class="font-medium text-slate-700">${b.phone}</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <i class="fa-solid fa-envelope text-indweBlue w-4"></i>
+                                <span class="truncate">${b.email}</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <i class="fa-solid fa-location-dot text-indweRed w-4"></i>
+                                <span class="truncate">${b.address}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Call to Action -->
+                    <div class="bg-slate-50 px-5 py-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                        <span class="text-slate-400 text-[11px]">Indwe Registered Entity</span>
+                        <a href="tel:${b.phone}" class="text-indweRed font-bold hover:underline flex items-center gap-1">
+                            Contact Business <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterBusinesses() {
+            renderBusinesses();
+        }
+
+        function openAuthModal(type = 'login') {
+            document.getElementById("authModal").classList.remove("hidden");
+        }
+
+        function closeAuthModal() {
+            document.getElementById("authModal").classList.add("hidden");
+        }
+
+        function simulateGoogleLogin() {
+            loginUser("Solam Mgqobozi");
+        }
+
+        function handleEmailLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById("authEmail").value;
+            const name = email.split('@')[0].replace('.', ' ');
+            loginUser(name.charAt(0).toUpperCase() + name.slice(1));
+        }
+
+        function loginUser(displayName) {
+            isLoggedIn = true;
+            document.getElementById("userDisplayName").innerText = displayName;
+            document.getElementById("loggedOutNav").classList.add("hidden");
+            document.getElementById("loggedInNav").classList.remove("hidden");
+            closeAuthModal();
+            renderBusinesses();
+            showToast(`Welcome back, ${displayName}! Front-end editing enabled.`);
+        }
+
+        function logout() {
+            isLoggedIn = false;
+            document.getElementById("loggedOutNav").classList.remove("hidden");
+            document.getElementById("loggedInNav").classList.add("hidden");
+            renderBusinesses();
+            showToast("Logged out successfully.");
+        }
+
+        function openAddModal() {
+            currentEditingId = null;
+            document.getElementById("formModalTitle").innerText = "Add New Indwe Business";
+            document.getElementById("businessForm").reset();
+            document.getElementById("bizId").value = "";
+            resetLogoPreview();
+            document.getElementById("businessModal").classList.remove("hidden");
+        }
+
+        function openEditModal(id) {
+            currentEditingId = id;
+            const biz = businesses.find(b => b.id === id);
+            if (!biz) return;
+
+            document.getElementById("formModalTitle").innerText = "Edit Business Listing";
+            document.getElementById("bizId").value = biz.id;
+            document.getElementById("bizName").value = biz.name;
+            document.getElementById("bizCategory").value = biz.category;
+            document.getElementById("bizPhone").value = biz.phone;
+            document.getElementById("bizEmail").value = biz.email;
+            document.getElementById("bizAddress").value = biz.address;
+            document.getElementById("bizDescription").value = biz.description;
+
+            // Preview existing image
+            uploadedImageDataUrl = biz.logo;
+            const imgPreview = document.getElementById("logoPreview");
+            const placeholder = document.getElementById("logoPlaceholderIcon");
+            imgPreview.src = biz.logo;
+            imgPreview.classList.remove("hidden");
+            placeholder.classList.add("hidden");
+
+            document.getElementById("businessModal").classList.remove("hidden");
+        }
+
+        function closeBusinessModal() {
+            document.getElementById("businessModal").classList.add("hidden");
+        }
+
+        function previewUploadedImage(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImageDataUrl = e.target.result;
+                    const imgPreview = document.getElementById("logoPreview");
+                    const placeholder = document.getElementById("logoPlaceholderIcon");
+                    imgPreview.src = uploadedImageDataUrl;
+                    imgPreview.classList.remove("hidden");
+                    placeholder.classList.add("hidden");
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function resetLogoPreview() {
+            uploadedImageDataUrl = null;
+            const imgPreview = document.getElementById("logoPreview");
+            const placeholder = document.getElementById("logoPlaceholderIcon");
+            imgPreview.src = "";
+            imgPreview.classList.add("hidden");
+            placeholder.classList.remove("hidden");
+        }
+
+        function saveBusiness(e) {
+            e.preventDefault();
+
+            const name = document.getElementById("bizName").value;
+            const category = document.getElementById("bizCategory").value;
+            const phone = document.getElementById("bizPhone").value;
+            const email = document.getElementById("bizEmail").value;
+            const address = document.getElementById("bizAddress").value;
+            const description = document.getElementById("bizDescription").value;
+            const logo = uploadedImageDataUrl || "https://placehold.co/300x160/f1f5f9/64748b?text=" + encodeURIComponent(name);
+
+            if (currentEditingId) {
+                // Update existing
+                const index = businesses.findIndex(b => b.id === currentEditingId);
+                if (index !== -1) {
+                    businesses[index] = {
+                        ...businesses[index],
+                        name, category, phone, email, address, description, logo
+                    };
+                    showToast("Business listing updated successfully!");
+                }
+            } else {
+                // Add new
+                const newBiz = {
+                    id: Date.now(),
+                    name, category, phone, email, address, description, logo,
+                    owner: "Solam Mgqobozi"
+                };
+                businesses.unshift(newBiz);
+                showToast("New business registered and published!");
+            }
+
+            closeBusinessModal();
+            renderBusinesses();
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            document.getElementById("toastMessage").innerText = msg;
+            toast.classList.remove("translate-y-20", "opacity-0");
+            toast.classList.add("translate-y-0", "opacity-100");
+
+            setTimeout(() => {
+                toast.classList.remove("translate-y-0", "opacity-100");
+                toast.classList.add("translate-y-20", "opacity-0");
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
